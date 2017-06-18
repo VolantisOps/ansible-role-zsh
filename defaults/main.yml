@@ -1,0 +1,6 @@
+---
+zsh_users: []
+#  - username
+zsh_profile_repo: '' # Git URL
+zsh_profile_repo_version: master
+zsh_profile_path: /etc/zsh-profile

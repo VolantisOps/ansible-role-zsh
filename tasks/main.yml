@@ -1,0 +1,23 @@
+- name: Install zsh
+  pacman: name=zsh state=installed
+
+- name: Clone zsh profile
+  git:
+    repo: "{{ zsh_profile_repo }}"
+    version: "{{ zsh_profile_repo_version }}"
+    accept_hostkey: true
+    dest: "{{ zsh_profile_path }}"
+
+- name: Symlink zsh profiles
+  file:
+    src: /etc/zsh-profile/zshrc
+    dest: "~{{ item.name }}/.zshrc"
+    state: link
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    force: yes
+  with_items: "{{ zsh_users }}"
+
+- name: Set user shells to zsh
+  user: "name={{ item }} append=true shell=/usr/bin/zsh"
+  with_items: "{{ zsh_users }}"
